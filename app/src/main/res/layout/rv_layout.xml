@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/recycler_item_view"
+    >
+    <android.support.v7.widget.AppCompatImageView
+
+        android:id="@+id/iv_poster"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingTop="@dimen/rv_poster_padding"
+        android:paddingLeft="@dimen/rv_poster_padding"
+        android:gravity="center"
+        />
+
+</LinearLayout>

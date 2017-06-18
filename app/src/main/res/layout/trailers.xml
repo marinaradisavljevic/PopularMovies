@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/videos_label"
+            android:text="@string/videos_label"
+            android:textSize="@dimen/text_size_22"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageView
+            android:layout_width="@dimen/play_button_width"
+            android:layout_height="@dimen/play_button_height"
+            android:id="@+id/play_image1"
+            android:src="@drawable/ic_play_circle_filled_black_36px"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/trailers_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/videos_label"
+            android:onClick="playVideo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/video1"
+            tools:text="@string/trailer"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintTop_toTopOf="@+id/play_image1"
+            android:layout_marginTop="@dimen/no_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/play_image1"
+            android:layout_marginBottom="@dimen/no_margin"
+            app:layout_constraintLeft_toRightOf="@+id/play_image1"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintVertical_bias="0.333" />
+
+        <ImageView
+            android:layout_width="@dimen/play_button_width"
+            android:layout_height="@dimen/play_button_height"
+            android:id="@+id/play_image2"
+            android:src="@drawable/ic_play_circle_filled_black_36px"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/trailers_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/play_image1"
+            android:onClick="playVideo"
+            android:visibility="invisible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/video2"
+            tools:text="@string/trailer"
+            android:textColor="@color/colorBlack"
+            android:onClick="playVideo"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/trailers_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/video1"
+            app:layout_constraintLeft_toRightOf="@+id/play_image2"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/play_image2"
+            android:layout_marginBottom="@dimen/no_margin" />
+
+        <ImageView
+            android:layout_width="@dimen/play_button_width"
+            android:layout_height="@dimen/play_button_height"
+            android:id="@+id/play_image3"
+            android:src="@drawable/ic_play_circle_filled_black_36px"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/trailers_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/play_image2"
+            android:onClick="playVideo"
+            android:visibility="invisible"
+            android:layout_marginBottom="@dimen/trailers_bottom_margin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/video3"
+            tools:text="@string/trailer"
+            android:textColor="@color/colorBlack"
+            android:onClick="playVideo"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/no_margin"
+            android:layout_marginBottom="@dimen/trailers_bottom_margin"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintLeft_toRightOf="@+id/play_image3"
+            android:layout_marginLeft="@dimen/trailers_vertical_margin"
+            app:layout_constraintTop_toTopOf="@+id/play_image3" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

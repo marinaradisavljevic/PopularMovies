@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="no_internet_connection_message">An error occurred. Please connect to the internet and try again.</string>
+    <string name="error_fetching_collection">An error occurred while fetching collection. Please try again later.</string>
+    <string name="no_favorites">There are no movies in your Favorites collection. Add a movie by tapping on the
+    star button below the runtime and you will be able to see its info without connecting to the internet.</string>
+    <string name="rating">8.0/10</string>
+    <string name="release_date">2000</string>
+    <string name="runtime">100min</string>
+    <string name="movie_title">TITLE</string>
+    <string name="sort">Sort by</string>
+    <string name="synopsis">This is a short mockup text for the movie synopsis.</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="number_of_reviews">5</string>
+    <string name="trailer">Trailer 0</string>
+    <string name="no_videos_message">No trailers available for this movie.</string>
+    <string name="no_app_for_videos">You need a browser or the Youtube app on your device to play this video.</string>
+    <string name="videos_label">Trailers</string>
+    <string name="author">Author</string>
+    <string name="no_reviews">No reviews available for this movie</string>
+    <string name="failed_loading_movie_details">Failed fetching movie details</string>
+    <string name="failed_loading_videos">Failed to fetch required videos</string>
+    <string name="failed_loading_reviews">Failed to fetch required reviews</string>
+    <string-array name="spinner_options">
+        <item>Most popular</item>
+        <item>Top rated</item>
+        <item>Favorites</item>
+    </string-array>
+</resources>

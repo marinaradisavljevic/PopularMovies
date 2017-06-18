@@ -1,0 +1,36 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_main_margin">10dp</dimen>
+    <dimen name="progress_bar_size">42dp</dimen>
+    <dimen name="error_message_padding">16dp</dimen>
+    <dimen name="error_message_text_size">14sp</dimen>
+    <dimen name="poster_width">120dp</dimen>
+    <dimen name="rv_poster_padding">10dp</dimen>
+    <dimen name="details_margin_top">8dp</dimen>
+    <dimen name="star_dimension">25dp</dimen>
+    <dimen name="no_margin">0dp</dimen>
+    <dimen name="poster_height">170dp</dimen>
+    <dimen name="poster_left_margin">8dp</dimen>
+    <dimen name="large_top_margin">32dp</dimen>
+    <dimen name="medium_text_size">24sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="rating_vertical_margin">8dp</dimen>
+    <dimen name="webview_width">0dp</dimen>
+    <dimen name="review_margin_right">8dp</dimen>
+    <dimen name="trailers_bottom_margin">32dp</dimen>
+    <dimen name="trailers_vertical_margin">8dp</dimen>
+    <dimen name="trailers_top_margin">8dp</dimen>
+    <dimen name="webview_vertical_margin">8dp</dimen>
+    <dimen name="webview_margin_top">16dp</dimen>
+    <dimen name="reviews_vertical_margin">16dp</dimen>
+    <dimen name="review_landscape_margin_bottom">16dp</dimen>
+    <dimen name="rv_review_vertical_margin">8dp</dimen>
+    <dimen name="rv_content_top_margin">16dp</dimen>
+    <dimen name="play_button_width">30dp</dimen>
+    <dimen name="play_button_height">25dp</dimen>
+</resources>
