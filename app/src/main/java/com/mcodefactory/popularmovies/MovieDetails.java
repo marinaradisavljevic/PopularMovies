@@ -65,6 +65,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         if (data!=null && intent.hasExtra("movie") && intent.hasExtra("choice")) {
             choice = data.getString("choice");
             movie = data.getParcelable("movie");
+            Log.d(TAG, "Passed on movie is " + movie.toString());
         }
 
         favoriteIds = new ArrayList<>();
@@ -106,9 +107,9 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             public void onFailure(Call<DetailResult> call, Throwable t) {
                 //check if the call failed to the lack of internet connection and display a message
                 if (!NetworkUtils.isNetworkAvailable(context)) {
-                    Toast.makeText(context, R.string.no_internet_connection_message, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.no_internet_connection_message, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, R.string.failed_loading_movie_details, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.failed_loading_movie_details, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -139,9 +140,9 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             public void onFailure(Call<VideoResult> call, Throwable t) {
                 //check if the call failed due to the lack of internet connection and display a message
                 if (!NetworkUtils.isNetworkAvailable(context)) {
-                    Toast.makeText(context, R.string.no_internet_connection_message, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.no_internet_connection_message, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, R.string.failed_loading_videos, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.failed_loading_videos, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -367,10 +368,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     public boolean checkIfFavorite() {
         if (favoriteIds.contains(movie.getId())) {
             return true;
-        } else {
-            return false;
         }
-
+        return false;
     }
 
     //delete the Movie from the Favorites

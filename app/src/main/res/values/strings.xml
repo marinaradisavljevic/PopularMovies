@@ -2,6 +2,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="no_internet_connection_message">An error occurred. Please connect to the internet and try again.</string>
     <string name="error_fetching_collection">An error occurred while fetching collection. Please try again later.</string>
+    <string name="error_loading_more_data">Error occurred while fetching more movies</string>
     <string name="no_favorites">There are no movies in your Favorites collection. Add a movie by tapping on the
     star button below the runtime and you will be able to see its info without connecting to the internet.</string>
     <string name="rating">8.0/10</string>
