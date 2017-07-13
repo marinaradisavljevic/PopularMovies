@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
     public RVAdapter mAdapter;
     private EndlessScrollListener scrollListener;
     private static final String PAGE_KEY = "scrollListenerCurrentPage";
-    //private int currentScrollPage;
     private static final int TASK_LOADER_ID = 0;
     private TextView mErrorMessageDisplay;
     // LayoutManager key and object used to preserve state after the device orientation change
@@ -117,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
             }
         };
         mRecyclerView.addOnScrollListener(scrollListener);
+
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
     }
 
     private void loadMoreData(int page) {
