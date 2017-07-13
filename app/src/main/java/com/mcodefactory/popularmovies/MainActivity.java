@@ -31,7 +31,6 @@ import com.mcodefactory.popularmovies.utils.ApiInterface;
 import com.mcodefactory.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,10 +40,11 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapterOnClickHandler,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-
     private RecyclerView mRecyclerView;
     public RVAdapter mAdapter;
     private EndlessScrollListener scrollListener;
+    private static final String PAGE_KEY = "scrollListenerCurrentPage";
+    //private int currentScrollPage;
     private static final int TASK_LOADER_ID = 0;
     private TextView mErrorMessageDisplay;
     // LayoutManager key and object used to preserve state after the device orientation change
@@ -68,17 +68,18 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
     ApiInterface apiInterface;
     private Context context;
     List<Movie> movies;
+    List<Movie> favoriteMovies;
     private boolean isRestored;
     // starting value for the number of result pages API offers
-    final int[] totalPages = {1};
+    int[] totalPages;
+    private static final String RESULT_PAGES_KEY = "result_pages_number";
 
 
     //used to dynamically calculate the number of columns that can be displayed on the device
     public static int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (dpWidth / POSTER_WIDTH);
-        return noOfColumns;
+        return (int) (dpWidth / POSTER_WIDTH);
     }
 
     @Override
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
 
         context = this;
         movies = new ArrayList<>();
+        favoriteMovies = new ArrayList<>();
+        totalPages = new int[1];
+        totalPages[0] = 1;
         isRestored = false;
         apiInterface = NetworkUtils.getClient().create(ApiInterface.class);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -99,79 +103,57 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setSaveEnabled(true);
-        if (mAdapter == null) {
-            mAdapter = new RVAdapter(this);
-        }
-
+        mAdapter = new RVAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.get(CHOICE_KEY) != null && savedInstanceState.getParcelableArrayList(MOVIES_KEY) != null) {
-                choice = savedInstanceState.getString(CHOICE_KEY);
-            }
-        }
-        if (scrollListener == null) {
-            scrollListener = new EndlessScrollListener(layoutManager) {
-                @Override
-                public boolean onLoadMore(int page, int totalItemsCount) {
+
+        scrollListener = new EndlessScrollListener(layoutManager) {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                if (totalItemsCount < 100) {
                     loadMoreData(page);
                     return true;
                 }
-            };
-        }
+                return false;
+            }
+        };
         mRecyclerView.addOnScrollListener(scrollListener);
-        Log.d(TAG, "Going through onCreate there are " + movies.size() + " movies");
     }
 
     private void loadMoreData(int page) {
+        scrollListener.setCurrentPage(page);
+        Log.d(TAG, "loading page " + page + " in loadMoreData");
         final int previousMovieCount = movies.size();
         if (totalPages[0] < page || page > EndlessScrollListener.MAX_PAGES) {
             return;
         }
+        Call<MovieResult> call;
         if (choice.equals(POPULAR)) {
-            Call<MovieResult> call = apiInterface.getMostPopularMovies(NetworkUtils.KEY,
+            call = apiInterface.getMostPopularMovies(NetworkUtils.KEY,
                     LANGUAGE, page);
-            call.enqueue(new Callback<MovieResult>() {
-                @Override
-                public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
-                    List<Movie> moviesPerPage = response.body().getResults();
-                    parseAndAddToCollection(moviesPerPage);
-
-                    Log.d(TAG, "Number of movies received: " + movies.size());
-                    if (movies.size() > previousMovieCount) {
-                        showMovieDataView();
-                        //load the collection in the adapter
-                        mAdapter.setData(movies);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MovieResult> call, Throwable t) {
-                    Toast.makeText(context, R.string.error_loading_more_data, Toast.LENGTH_SHORT).show();
-                }
-            });
         } else if (choice.equals(TOP_RATED)) {
-            Call<MovieResult> call = apiInterface.getTopRatedMovies(NetworkUtils.KEY,
+            call = apiInterface.getTopRatedMovies(NetworkUtils.KEY,
                     LANGUAGE, page);
-            call.enqueue(new Callback<MovieResult>() {
-                @Override
-                public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
-                    List<Movie> moviesPerPage = response.body().getResults();
-                    parseAndAddToCollection(moviesPerPage);
-
-                    Log.d(TAG, "Number of movies received: " + movies.size());
-                    if (movies.size() > previousMovieCount) {
-                        showMovieDataView();
-                        //load the collection in the adapter
-                        mAdapter.setData(movies);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MovieResult> call, Throwable t) {
-                    Toast.makeText(context, R.string.error_loading_more_data, Toast.LENGTH_SHORT).show();
-                }
-            });
+        } else {
+            return;
         }
+        call.enqueue(new Callback<MovieResult>() {
+            @Override
+            public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
+                List<Movie> moviesPerPage = response.body().getResults();
+                parseAndAddToCollection(moviesPerPage);
+
+                if (movies.size() > previousMovieCount) {
+                    showMovieDataView();
+                    //load the collection in the adapter
+                    mAdapter.setData(movies);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieResult> call, Throwable t) {
+                Toast.makeText(context, R.string.error_loading_more_data, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void showMovieDataView() {
@@ -188,36 +170,36 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
         showMovieDataView();
         //check if choice is Favorites, if so, load the collection from the local db
         if (choice.equals(FAVORITES)) {
-            Log.d(TAG, "Going through loadMovieData, no movies in the Favorites page, loading from storage...");
             getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 
             //if choice is most popular or top rated, call the Retrofit client to fetch collection
         } else {
-            Log.d(TAG, "Going through loadMovieData, no movies loaded, start loading from API...");
             // load the first page
-            int pageToLoad = EndlessScrollListener.STARTING_PAGE_INDEX;
+            scrollListener.setCurrentPage(EndlessScrollListener.STARTING_PAGE_INDEX);
+            Log.d(TAG, "loading the first page of the collection");
             Call<MovieResult> call;
             if (choice.equals(POPULAR)) {
                 call = apiInterface.getMostPopularMovies(NetworkUtils.KEY,
-                        LANGUAGE, pageToLoad);
+                        LANGUAGE, EndlessScrollListener.STARTING_PAGE_INDEX);
             } else {
                 call = apiInterface.getTopRatedMovies(NetworkUtils.KEY,
-                        LANGUAGE, pageToLoad);
+                        LANGUAGE, EndlessScrollListener.STARTING_PAGE_INDEX);
             }
             call.enqueue(new Callback<MovieResult>() {
                 @Override
                 public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
                     // retrieve the total number of result pages API offers
                     totalPages[0] = response.body().getTotalPages();
-                    Log.d(TAG, "Total pages: " + totalPages[0]);
                     List<Movie> moviesPerPage = response.body().getResults();
+                    Log.d(TAG, "number of movies received for first page is " + moviesPerPage.size());
                     parseAndAddToCollection(moviesPerPage);
 
-                    Log.d(TAG, "Number of movies received: " + movies.size());
                     if (movies.size() > 0) {
                         showMovieDataView();
                         //load the collection in the adapter
                         mAdapter.setData(movies);
+                        Log.d(TAG, "number of movies in the adapter is " + movies.size());
+                        Log.d(TAG, "current page in the scroll listener is " + scrollListener.getPage());
                     } else {
                         //if there are no movies in the result page, show error message
                         mErrorMessageDisplay.setText(R.string.error_fetching_collection);
@@ -343,11 +325,8 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
 
             @Override
             protected void onStartLoading() {
-                if (favoritesData != null) {
-                    deliverResult(favoritesData);
-                } else {
-                    forceLoad();
-                }
+                forceLoad();
+
             }
 
             @Override
@@ -369,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
                     showErrorMessage();
                 } else {
                     //reads to Cursor data into a list of movies for the adapter
-                    movies = loadCursorDataToObjects(data);
+                    favoriteMovies = loadCursorDataToObjects(data);
                 }
 
                 favoritesData = data;
@@ -382,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //sets the adapter data and restores the scroll position
-        mAdapter.setData(movies);
+        mAdapter.setData(favoriteMovies);
     }
 
     @Override
@@ -393,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
     // iterates of the Cursor data and loads it into a Movie array
     public List<Movie> loadCursorDataToObjects(Cursor data) {
         int noOfMovies = data.getCount();
-        List<Movie> movies = new ArrayList<>();
+        List<Movie> movieCollection = new ArrayList<>();
         for (int i = 0; i < noOfMovies; i++) {
             Movie movie = new Movie();
             data.moveToPosition(i);
@@ -421,9 +400,9 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
             int posterNameIndex = data.getColumnIndex(FavoriteMoviesContract.MovieEntry.POSTER_IMAGE_NAME);
             movie.setPosterPath(data.getString(posterNameIndex));
 
-            movies.add(movie);
+            movieCollection.add(movie);
         }
-        return movies;
+        return movieCollection;
     }
 
     @Override
@@ -433,23 +412,36 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.RVAdapt
         outState.putParcelable(SAVED_LAYOUT_MANAGER, mRecyclerView.getLayoutManager().onSaveInstanceState());
         // save the currently loaded list of movie objects
         outState.putParcelableArrayList(MOVIES_KEY, (ArrayList<Movie>) movies);
-        Log.d(TAG, "Going through onSaveInstanceState saved " + movies.size() + " movies");
+        outState.putString(CHOICE_KEY, choice);
+        outState.putInt(PAGE_KEY, scrollListener.getPage());
+        Log.d(TAG, "current page saved in onSaveInstanceState is " + scrollListener.getPage());
+        outState.putInt(RESULT_PAGES_KEY, totalPages[0]);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle state) {
         if (state != null) {
-            Bundle bundle = state;
             //restore the LayoutManager's state (i.e. scroll position)
-            layoutManagerSavedState = bundle.getParcelable(SAVED_LAYOUT_MANAGER);
+            layoutManagerSavedState = state.getParcelable(SAVED_LAYOUT_MANAGER);
+            choice = state.getString(CHOICE_KEY);
             // restore the list of previously loaded movies
-            movies = bundle.getParcelableArrayList(MOVIES_KEY);
-            Log.d(TAG, "Going through onRestoreInstanceState retrieved " + movies.size() + " movies");
-            mAdapter.setData(movies);
+            movies = state.getParcelableArrayList(MOVIES_KEY);
+
+            if (!choice.equals(FAVORITES)) {
+                mAdapter.setData(movies);
+            } else {
+                loadMovieData(choice);
+            }
+
             mRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
+            totalPages[0] = state.getInt(RESULT_PAGES_KEY);
+            scrollListener.setCurrentPage(state.getInt(PAGE_KEY));
+            scrollListener.setLoading(false);
+            Log.d(TAG, "Current page restored in onRestoreInstanceState is " + state.getInt(PAGE_KEY));
             isRestored = true;
         }
         super.onRestoreInstanceState(state);
     }
+
 
 }

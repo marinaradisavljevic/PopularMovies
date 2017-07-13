@@ -3,10 +3,6 @@ package com.mcodefactory.popularmovies;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-/**
- * Created by hp on 23-Jun-17.
- */
-
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
     // The minimum number of items to have below current scroll position
     private int visibleThreshold = 5;
@@ -38,18 +34,17 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
 
         // If the total item count is zero and the previous isn't, reset back to initial state
         if (totalItemCount < previousTotalItemCount) {
-            this.currentPage = this.STARTING_PAGE_INDEX;
+            this.currentPage = STARTING_PAGE_INDEX;
             this.previousTotalItemCount = totalItemCount;
             if (totalItemCount == 0) {
                 this.loading = true;
             }
         }
 
-        // If it's still loading, check to see if the collection count has changed and update the current page number and total item count.
+        // If it's still loading, check to see if the collection count has changed and update the total item count.
         if (loading && (totalItemCount > previousTotalItemCount)) {
             loading = false;
             previousTotalItemCount = totalItemCount;
-            currentPage++;
         }
 
         if (!loading && (firstVisibleItemPosition + visibleItemCount + visibleThreshold) >= totalItemCount) {
@@ -63,5 +58,17 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     @Override
     public void onScrollStateChanged(RecyclerView view, int scrollState) {
         // Don't take any action on changed
+    }
+
+    public int getPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int page) {
+        currentPage = page;
+    }
+
+    public void setLoading(boolean isLoading) {
+        loading = isLoading;
     }
 }
