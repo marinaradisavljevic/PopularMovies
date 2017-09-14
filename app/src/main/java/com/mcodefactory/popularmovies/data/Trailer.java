@@ -2,11 +2,13 @@ package com.mcodefactory.popularmovies.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Trailer object POJO
  */
 
-public class Trailer {
+public class Trailer implements Serializable {
 
     @SerializedName("name")
     private String name;
