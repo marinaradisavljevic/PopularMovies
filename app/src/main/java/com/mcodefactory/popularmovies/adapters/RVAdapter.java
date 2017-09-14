@@ -53,9 +53,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RVAdapterViewHolde
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.rv_layout;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        View view = inflater.inflate(layoutIdForListItem, viewGroup, false);
         return new RVAdapterViewHolder(view);
     }
 
@@ -69,7 +68,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RVAdapterViewHolde
             Picasso.with(adapterViewHolder.itemView.getContext()).load(poster).into(adapterViewHolder.mPoster);
         } else {
             Uri posterUri = NetworkUtils.buildPosterUri(movie.getPosterPath());
-            Picasso.with(adapterViewHolder.itemView.getContext()).load(posterUri).into(adapterViewHolder.mPoster);
+            Picasso.with(adapterViewHolder.itemView.getContext()).load(posterUri).
+                    placeholder(R.drawable.ic_panorama_white_48px).into(adapterViewHolder.mPoster);
         }
     }
 
@@ -89,8 +89,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RVAdapterViewHolde
     public File loadPosterFromStorage(Context context, String imageName) {
         ContextWrapper cw = new ContextWrapper(context);
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File poster = new File(directory, imageName);
-        return poster;
+        return new File(directory, imageName);
     }
 
 }

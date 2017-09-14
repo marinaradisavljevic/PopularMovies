@@ -24,6 +24,9 @@ public class Movie implements Parcelable {
     @SerializedName("runtime")
     private int runtime;
     private boolean isFavorite;
+    private int localID;
+    @SerializedName("reviewNo")
+    private int reviewNo;
 
     public Movie() {
 
@@ -86,6 +89,14 @@ public class Movie implements Parcelable {
         this.id = id;
     }
 
+    public int getLocalID() {
+        return localID;
+    }
+
+    public void setLocalID(int localDbId) {
+        this.localID = localDbId;
+    }
+
     public String getOriginalTitle() { return originalTitle; }
 
     public void setOriginalTitle(String originalTitle) {
@@ -108,6 +119,14 @@ public class Movie implements Parcelable {
         isFavorite = favorite;
     }
 
+    public void setReviewNo(int number) {
+        reviewNo = number;
+    }
+
+    public int getReviewNo() {
+        return reviewNo;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -118,10 +137,9 @@ public class Movie implements Parcelable {
         return "Original title: " + originalTitle + " release year: " + releaseYear;
     }
 
-    public static int parseDate(String date) {
+    private static int parseDate(String date) {
         String[] values = date.split("-");
-        int year = Integer.valueOf(values[0]);
-        return year;
+        return Integer.valueOf(values[0]);
     }
 
     @Override
@@ -134,6 +152,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.posterPath);
         dest.writeInt(this.id);
         dest.writeInt(this.runtime);
+        dest.writeInt(this.reviewNo);
 
     }
 
@@ -146,6 +165,7 @@ public class Movie implements Parcelable {
         this.posterPath = in.readString();
         this.id = in.readInt();
         this.runtime = in.readInt();
+        this.reviewNo = in.readInt();
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

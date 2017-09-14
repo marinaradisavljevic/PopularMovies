@@ -2,8 +2,10 @@
     <string name="app_name">Popular Movies</string>
     <string name="no_internet_connection_message">An error occurred. Please connect to the internet and try again.</string>
     <string name="error_fetching_collection">An error occurred while fetching collection. Please try again later.</string>
+    <string name="error_loading_more_data">Error occurred while fetching more movies</string>
     <string name="no_favorites">There are no movies in your Favorites collection. Add a movie by tapping on the
     star button below the runtime and you will be able to see its info without connecting to the internet.</string>
+    <string name="no_reviews_msg">There are no reviews available for this movie</string>
     <string name="rating">8.0/10</string>
     <string name="release_date">2000</string>
     <string name="runtime">100min</string>
@@ -21,6 +23,10 @@
     <string name="failed_loading_movie_details">Failed fetching movie details</string>
     <string name="failed_loading_videos">Failed to fetch required videos</string>
     <string name="failed_loading_reviews">Failed to fetch required reviews</string>
+    <string name="reviews_headline">Reviews</string>
+    <string name="favorite_star_cd">A star image colored gray if the movie is not among favorites,
+    colored yellow if the movie is in the Favorites collection.</string>
+    <string name="poster_cd">Movie poster.</string>
     <string-array name="spinner_options">
         <item>Most popular</item>
         <item>Top rated</item>
