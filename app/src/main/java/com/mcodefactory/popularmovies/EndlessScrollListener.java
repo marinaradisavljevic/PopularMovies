@@ -17,7 +17,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     // Maximum number of pages to load
     public static final int MAX_PAGES = 5;
 
-    GridLayoutManager layoutManager;
+    private GridLayoutManager layoutManager;
 
 
     public EndlessScrollListener(GridLayoutManager layoutManager) {

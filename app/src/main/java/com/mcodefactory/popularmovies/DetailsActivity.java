@@ -5,8 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -18,22 +18,23 @@ import com.mcodefactory.popularmovies.utils.NetworkUtils;
 
 import java.util.List;
 
-public class DetailsActivity extends ActionBarActivity implements DetailsFragment.OnSelectedListener {
+public class DetailsActivity extends AppCompatActivity implements DetailsFragment.OnSelectedListener {
 
-    Movie movie;
-    ReviewsFragment reviewsFragment;
-    FragmentManager fragmentManager;
-    boolean isDualPane;
-    boolean removedFromFavorites;
+    private Movie movie;
+    private ReviewsFragment reviewsFragment;
+    private FragmentManager fragmentManager;
+    private boolean isDualPane;
+    private boolean removedFromFavorites;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
 

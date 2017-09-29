@@ -18,14 +18,14 @@ import java.util.List;
  */
 
 public class ReviewRVAdapter extends RecyclerView.Adapter<ReviewRVAdapter.ReviewRVAdapterViewHolder>  {
-    List<Review> reviews;
+    private List<Review> reviews;
 
 
     public class ReviewRVAdapterViewHolder extends RecyclerView.ViewHolder {
-        public final TextView author;
-        public final TextView content;
+        final TextView author;
+        final TextView content;
 
-        public ReviewRVAdapterViewHolder(View view) {
+        ReviewRVAdapterViewHolder(View view) {
             super(view);
             author= (TextView) view.findViewById(R.id.author);
             content = (TextView) view.findViewById(R.id.tv_content);
@@ -38,9 +38,8 @@ public class ReviewRVAdapter extends RecyclerView.Adapter<ReviewRVAdapter.Review
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.review_rv_layout;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new ReviewRVAdapterViewHolder(view);
     }
 

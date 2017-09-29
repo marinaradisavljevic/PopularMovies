@@ -23,7 +23,7 @@ public class ReviewsFragment extends Fragment {
     public ReviewRVAdapter mAdapter;
     private TextView mErrorMessageDisplay;
 
-    List<Review> reviewList;
+    private List<Review> reviewList;
 
     @Nullable
     @Override

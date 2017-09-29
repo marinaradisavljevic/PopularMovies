@@ -18,7 +18,7 @@ public class ReviewResult {
     @SerializedName("total_results")
     private int totalReviews;
     @SerializedName("results")
-    List<Review> reviews;
+    private List<Review> reviews;
 
     public int getPage() {
         return page;

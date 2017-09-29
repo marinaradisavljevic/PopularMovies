@@ -31,9 +31,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RVAdapterViewHolde
     }
 
     public class RVAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public final ImageView mPoster;
+        final ImageView mPoster;
 
-        public RVAdapterViewHolder(View view) {
+        RVAdapterViewHolder(View view) {
             super(view);
             mPoster= (ImageView) view.findViewById(R.id.iv_poster);
             view.setOnClickListener(this);
@@ -86,7 +86,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RVAdapterViewHolde
         notifyDataSetChanged();
     }
 
-    public File loadPosterFromStorage(Context context, String imageName) {
+    private File loadPosterFromStorage(Context context, String imageName) {
         ContextWrapper cw = new ContextWrapper(context);
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         return new File(directory, imageName);

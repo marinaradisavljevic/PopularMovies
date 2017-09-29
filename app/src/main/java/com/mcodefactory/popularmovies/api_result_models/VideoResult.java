@@ -14,7 +14,7 @@ public class VideoResult {
     @SerializedName("id")
     private int id;
     @SerializedName("results")
-    List<Trailer> videos;
+    private List<Trailer> videos;
 
     public int getId() {
         return id;

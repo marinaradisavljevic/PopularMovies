@@ -42,19 +42,19 @@ public class PopularMoviesFragment extends Fragment implements RVAdapter.RVAdapt
     private static final String PAGE_KEY = "scrollListenerCurrentPage";
     private static final String MOVIES_KEY = "movies";
     private static final String RESULT_PAGES_KEY = "result_pages_number";
-    GridLayoutManager layoutManager;
+    private GridLayoutManager layoutManager;
     private Parcelable layoutManagerSavedState;
-    public static final int POSTER_WIDTH = 120;
-    ApiInterface apiInterface;
-    List<Movie> movies;
+    private static final int POSTER_WIDTH = 120;
+    private ApiInterface apiInterface;
+    private List<Movie> movies;
     public static final String LANGUAGE = "en_US";
-    int[] totalPages;
-    OnSelectMovieListener listener;
+    private int[] totalPages;
+    private OnSelectMovieListener listener;
     private EndlessScrollListener scrollListener;
 
 
     //used to dynamically calculate the number of columns that can be displayed on the device
-    public static int calculateNoOfColumns(Context context) {
+    private int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / POSTER_WIDTH);

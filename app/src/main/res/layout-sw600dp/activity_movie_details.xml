@@ -3,36 +3,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
-    <FrameLayout
-        android:id="@+id/details_container"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="match_parent"></FrameLayout>
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/reviews_headline"
-            android:gravity="center"
-            android:textStyle="italic"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="24sp" />
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <FrameLayout
-            android:id="@+id/reviews_container"
-            android:layout_width="match_parent"
+            android:id="@+id/details_container"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="match_parent"></FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reviews_headline"
+                android:gravity="center"
+                android:textStyle="italic"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp" />
+
+            <FrameLayout
+                android:id="@+id/reviews_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 

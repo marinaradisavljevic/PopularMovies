@@ -49,49 +49,49 @@ import retrofit2.Response;
 public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int TASK_LOADER_ID = 1;
-    static Movie movie;
-    Uri posterUri;
-    ArrayList<Integer> favoriteIds;
-    public static String imageName;
-    public static boolean isFavorite;
-    public static boolean isDualPane;
-    List<Review> reviews;
-    OnSelectedListener listener;
+    private static Movie movie;
+    private Uri posterUri;
+    private ArrayList<Integer> favoriteIds;
+    private String imageName;
+    private boolean isFavorite;
+    private static boolean isDualPane;
+    private List<Review> reviews;
+    private OnSelectedListener listener;
 
-    TextView tvTitle;
-    String title;
-    TextView releaseDate;
-    int releaseYear;
-    ImageView poster;
-    String posterPath;
-    TextView rating;
-    double voteAverage;
-    ImageView star;
-    WebView description;
-    String synopsis;
-    TextView runtime;
-    int movieRuntime;
-    TextView numberOfReviews;
-    static int reviewNo = -1;
-    ViewGroup trailers;
-    List<Trailer> allTrailers;
-    TextView video1;
-    ImageView play1;
-    TextView video2;
-    ImageView play2;
-    TextView video3;
-    ImageView play3;
-    Call<DetailResult> detailsCall;
-    Call<ReviewResult> reviewsCall;
-    Call<VideoResult> videoResultCall;
+    private TextView tvTitle;
+    private String title;
+    private TextView releaseDate;
+    private int releaseYear;
+    private ImageView poster;
+    private String posterPath;
+    private TextView rating;
+    private double voteAverage;
+    private ImageView star;
+    private WebView description;
+    private String synopsis;
+    private TextView runtime;
+    private int movieRuntime;
+    private TextView numberOfReviews;
+    private static int reviewNo = -1;
+    private ViewGroup trailers;
+    private List<Trailer> allTrailers;
+    private TextView video1;
+    private ImageView play1;
+    private TextView video2;
+    private ImageView play2;
+    private TextView video3;
+    private ImageView play3;
+    private Call<DetailResult> detailsCall;
+    private Call<ReviewResult> reviewsCall;
+    private Call<VideoResult> videoResultCall;
 
 
     public interface OnSelectedListener {
-        public void playVideo(String tag);
+        void playVideo(String tag);
 
-        public void displayReviews(List<Review> reviews);
+        void displayReviews(List<Review> reviews);
 
-        public void removedFromFavorites();
+        void removedFromFavorites();
     }
 
     @Override

@@ -6,8 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +20,12 @@ import com.mcodefactory.popularmovies.fragments.FavoritesFragment;
 import com.mcodefactory.popularmovies.fragments.PopularMoviesFragment;
 import com.mcodefactory.popularmovies.fragments.TopRatedFragment;
 
-public class MainActivity extends ActionBarActivity implements OnSelectMovieListener {
+public class MainActivity extends AppCompatActivity implements OnSelectMovieListener {
 
-    public static final String MOVIE_KEY = "movie";
+    private static final String MOVIE_KEY = "movie";
 
     //local variable used to trigger changes in the selection criterion from top rated to most popular to favorites
-    public static String choice;
+    private String choice;
     public static final String CHOICE_KEY = "choice";
     public static final String POPULAR = "popular";
     public static final String TOP_RATED = "top_rated";
@@ -33,7 +34,7 @@ public class MainActivity extends ActionBarActivity implements OnSelectMovieList
     public static final int REQUEST_CODE = 10;
     public static final String COLLECTION_CHANGED_KEY = "changed";
 
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
     private boolean isRestored;
     public static Context appContext;
 
@@ -42,6 +43,9 @@ public class MainActivity extends ActionBarActivity implements OnSelectMovieList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         appContext = getApplicationContext();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             isRestored = true;

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,18 +40,16 @@ public class TopRatedFragment extends Fragment implements RVAdapter.RVAdapterOnC
     private static final String PAGE_KEY = "scrollListenerCurrentPage";
     private static final String MOVIES_KEY = "movies";
     private static final String RESULT_PAGES_KEY = "result_pages_number";
-    GridLayoutManager layoutManager;
-    private Parcelable layoutManagerSavedState;
-    public static final int POSTER_WIDTH = 120;
-    ApiInterface apiInterface;
-    List<Movie> movies;
+    private static final int POSTER_WIDTH = 120;
+    private ApiInterface apiInterface;
+    private List<Movie> movies;
     public static final String LANGUAGE = "en_US";
-    int[] totalPages;
-    OnSelectMovieListener listener;
+    private int[] totalPages;
+    private OnSelectMovieListener listener;
     private EndlessScrollListener scrollListener;
 
     //used to dynamically calculate the number of columns that can be displayed on the device
-    public static int calculateNoOfColumns(Context context) {
+    private int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / POSTER_WIDTH);
@@ -110,7 +107,7 @@ public class TopRatedFragment extends Fragment implements RVAdapter.RVAdapterOnC
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mErrorMessageDisplay = (TextView) view.findViewById(R.id.tv_error_message_display);
         int noOfColumns = calculateNoOfColumns(getActivity().getApplicationContext());
-        layoutManager = new GridLayoutManager(getActivity(), noOfColumns, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), noOfColumns, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setSaveEnabled(true);
@@ -226,7 +223,7 @@ public class TopRatedFragment extends Fragment implements RVAdapter.RVAdapterOnC
             mAdapter.notifyDataSetChanged();
             showMovieDataView();
             //restore the LayoutManager's state (i.e. scroll position)
-            layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+            Parcelable layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
             mRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
             totalPages[0] = savedInstanceState.getInt(RESULT_PAGES_KEY);
             scrollListener.setCurrentPage(savedInstanceState.getInt(PAGE_KEY));

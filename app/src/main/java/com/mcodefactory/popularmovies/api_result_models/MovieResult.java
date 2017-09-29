@@ -1,6 +1,6 @@
 package com.mcodefactory.popularmovies.api_result_models;
 
-/**
+/*
  * API call result model class for most popular and top rated collections
  */
 
@@ -18,7 +18,7 @@ public class MovieResult {
     @SerializedName("total_pages")
     private int totalPages;
     @SerializedName("results")
-    List<Movie> results;
+    private List<Movie> results;
 
 
     public int getPage() {
